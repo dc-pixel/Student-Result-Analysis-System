@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Student Result Analysis System" />
+  <meta name="description" content="Student Result Analysis System for managing and analysing academic performance." />
+  <meta name="theme-color" content="#4f46e5" />
   <title>Student Result Analysis System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <aside class="sidebar">
     <div class="brand"><span class="brand-mark">SR</span><div><strong>ResultIQ</strong><small>Student Analytics</small></div></div>
-    <nav>
+    <nav aria-label="Primary navigation">
       <button class="nav-item active" data-section="dashboard">▦ <span>Dashboard</span></button>
       <button class="nav-item" data-section="results">☷ <span>Results</span></button>
       <button class="nav-item" data-section="analytics">◒ <span>Analytics</span></button>
@@ -24,7 +25,7 @@
   <main class="main">
     <header class="topbar">
       <div><h1 id="pageTitle">Dashboard</h1><p>Manage and analyse student performance.</p></div>
-      <button class="primary" id="addStudentBtn">+ Add Student</button>
+      <button class="primary" id="addStudentBtn" type="button">+ Add Student</button>
     </header>
 
     <section id="dashboard" class="section active">
@@ -34,15 +35,15 @@
         <article class="card"><div class="card-head"><div><h2>Grade Distribution</h2><p>Current student population</p></div></div><div id="gradeChart" class="donut-wrap"></div></article>
       </div>
       <div class="grid-two">
-        <article class="card"><div class="card-head"><div><h2>Top Performers</h2><p>Highest percentages</p></div><button class="link-btn" data-section-jump="results">View all</button></div><div id="topStudents"></div></article>
+        <article class="card"><div class="card-head"><div><h2>Top Performers</h2><p>Highest percentages</p></div><button class="link-btn" data-section-jump="results" type="button">View all</button></div><div id="topStudents"></div></article>
         <article class="card"><div class="card-head"><div><h2>Needs Attention</h2><p>Students below 50%</p></div></div><div id="riskStudents"></div></article>
       </div>
     </section>
 
     <section id="results" class="section">
       <article class="card">
-        <div class="toolbar"><div><h2>Student Results</h2><p id="resultCount"></p></div><div class="toolbar-actions"><input id="searchInput" placeholder="Search name or roll no. ..." /><select id="classFilter"><option value="all">All classes</option></select><button class="secondary" id="exportBtn">Export CSV</button></div></div>
-        <div class="table-wrap"><table><thead><tr><th>Student</th><th>Class</th><th>Subjects</th><th>Total</th><th>%</th><th>Grade</th><th>Status</th><th></th></tr></thead><tbody id="resultsTable"></tbody></table></div>
+        <div class="toolbar"><div><h2>Student Results</h2><p id="resultCount"></p></div><div class="toolbar-actions"><input id="searchInput" aria-label="Search students" placeholder="Search name or roll no. ..." /><select id="classFilter" aria-label="Filter by class"><option value="all">All classes</option></select><button class="secondary" id="exportBtn" type="button">Export CSV</button></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Student</th><th>Class</th><th>Subjects</th><th>Total</th><th>%</th><th>Grade</th><th>Status</th><th>Actions</th></tr></thead><tbody id="resultsTable"></tbody></table></div>
       </article>
     </section>
 
@@ -52,7 +53,27 @@
     </section>
   </main>
 
-  <dialog id="studentModal"><form method="dialog" id="studentForm" class="modal-card"><div class="modal-head"><div><h2 id="modalTitle">Add Student</h2><p>Enter marks out of 100 for each subject.</p></div><button class="icon-btn" value="cancel" type="submit">×</button></div><input type="hidden" id="studentId"/><div class="form-grid"><label>Name<input id="name" required /></label><label>Roll Number<input id="roll" required /></label><label>Class<input id="studentClass" required placeholder="BCA 3A" /></label><label>Section<input id="section" placeholder="A" /></label></div><div class="subjects-grid" id="subjectInputs"></div><div class="modal-actions"><button class="secondary" value="cancel" type="submit">Cancel</button><button class="primary" value="default" type="submit">Save Result</button></div></form></dialog>
+  <dialog id="studentModal" aria-labelledby="modalTitle">
+    <form id="studentForm" class="modal-card">
+      <div class="modal-head">
+        <div><h2 id="modalTitle">Add Student</h2><p>Enter marks out of 100 for each subject.</p></div>
+        <button class="icon-btn" id="closeModalBtn" type="button" aria-label="Close dialog">×</button>
+      </div>
+      <input type="hidden" id="studentId" />
+      <div class="form-grid">
+        <label for="name">Name<input id="name" autocomplete="name" required /></label>
+        <label for="roll">Roll Number<input id="roll" autocomplete="off" required /></label>
+        <label for="studentClass">Class<input id="studentClass" autocomplete="off" required placeholder="BCA 3A" /></label>
+        <label for="section">Section<input id="section" autocomplete="off" placeholder="A" /></label>
+      </div>
+      <div class="subjects-grid" id="subjectInputs"></div>
+      <p class="form-error" id="formError" role="alert" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="secondary" id="cancelModalBtn" type="button">Cancel</button>
+        <button class="primary" type="submit">Save Result</button>
+      </div>
+    </form>
+  </dialog>
   <script src="app.js"></script>
 </body>
 </html>

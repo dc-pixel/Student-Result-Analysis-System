@@ -1,0 +1,20 @@
+name: Validate static app
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify required files
+        run: |
+          test -f index.html
+          test -f app.js
+          test -f styles.css
+      - name: Check JavaScript syntax
+        run: node --check app.js
